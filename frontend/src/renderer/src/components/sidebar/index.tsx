@@ -45,16 +45,6 @@ const branches = [
     url: "#",
     icon: () => <CircleDot />,
   },
-  {
-    name: "Feature",
-    url: "#",
-    icon: () => <Dot />,
-  },
-  {
-    name: "Bugfix",
-    url: "#",
-    icon: () => <Dot />,
-  }
 ]
 
 const repositories = [
@@ -63,16 +53,16 @@ const repositories = [
     label: "Version-Control-System",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "TestRepo",
+    label: "Test-Repo",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "nextjs",
+    label: "Next-JS",
   },
   {
-    value: "remix",
-    label: "Remix",
+    value: "dotslash",
+    label: "DotSlash",
   },
   {
     value: "astro",
