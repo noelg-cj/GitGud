@@ -79,8 +79,6 @@ const SideBar = ({ className, ...props }: CardProps) => {
   const [repoMenuOpen, setRepoMenuOpen] = React.useState(false)
   const [currentRepo, setCurrentRepo] = React.useState("")
 
-  const [profileMenuOpen, setProfileMenuOpen] = React.useState(false)
-  const [currentProfile, setCurrentProfile] = React.useState("")
   return (
     <Sidebar>
       <SidebarHeader>
@@ -93,7 +91,7 @@ const SideBar = ({ className, ...props }: CardProps) => {
               className="w-full py-6 cursor-pointer justify-between"
             >
               <Avatar>
-                <AvatarImage src="https://avatars.githubusercontent.com/u/67109815?v=4" />
+                <AvatarImage />
                 <AvatarFallback>VC</AvatarFallback>
               </Avatar>
               {currentRepo

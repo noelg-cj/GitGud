@@ -13,6 +13,19 @@ import {
   } from "@renderer/components/ui/sidebar"
 
   import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@renderer/components/ui/alert-dialog"
+  
+
+  import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
@@ -23,7 +36,7 @@ import {
   } from "@renderer/components/ui/dropdown-menu"
 
   import avatar from "../../assets/self.jpg"
-import { ChevronsUpDown, Sparkles } from 'lucide-react'
+import { BellIcon, ChevronsUpDown, LogOutIcon, Settings } from 'lucide-react'
 
 const UserCard = () => {
   return (
@@ -31,29 +44,31 @@ const UserCard = () => {
         <SidebarMenuItem>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <SidebarMenuButton 
-                        size='lg' 
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    >
-                        <Avatar>
-                            <AvatarImage src={avatar} alt='User' />
-                            <AvatarFallback>NG</AvatarFallback>
-                        </Avatar>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-medium">Noel George</span>
-                            <span className="truncate text-xs text-zinc-300">noelg-cj</span>
-                        </div>
-                        <ChevronsUpDown />
-                    </SidebarMenuButton>
+                    <div>
+                        <SidebarMenuButton
+                            size='lg'
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        >
+                            <Avatar>
+                                <AvatarImage src={avatar} alt='User' />
+                                <AvatarFallback>NG</AvatarFallback>
+                            </Avatar>
+                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                <span className="truncate font-medium">Noel George</span>
+                                <span className="truncate text-xs text-zinc-300">noelg-cj</span>
+                            </div>
+                            <ChevronsUpDown />
+                        </SidebarMenuButton>
+                    </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                    side="right"
+                    side="top"
                     align="end"
                     sideOffset={4}
                 >
                     <DropdownMenuLabel>
-                        <div>
+                        <div className='flex gap-3'>
                             <Avatar>
                                 <AvatarImage src={avatar} alt='User' />
                                 <AvatarFallback>NG</AvatarFallback>
@@ -67,9 +82,41 @@ const UserCard = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                         <DropdownMenuItem>
-                            <Sparkles />
-                            Upgrade to Pro
+                            <Settings />
+                            Settings
                         </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <BellIcon />
+                            Notifications
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <AlertDialog>
+                            <DropdownMenuItem 
+                                className="text-red-600 hover:!text-red-600"
+                                onSelect={(e) => e.preventDefault()}
+                            >
+                                <AlertDialogTrigger asChild>
+                                    <div className='flex gap-2 items-center'>
+                                        <LogOutIcon color='var(--color-red-600)' />
+                                        Logout
+                                    </div>
+                                </AlertDialogTrigger>
+                            </DropdownMenuItem>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Do you really want to Logout?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Hey Developer Noel here! I haven't really made the logout functionality. Stay tuned for that :p
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction>Pleeease</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
