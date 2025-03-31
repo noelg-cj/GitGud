@@ -35,6 +35,8 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@renderer/components/ui/popover"
+  import { Badge } from "@renderer/components/ui/badge"
+
 import { Avatar, AvatarFallback, AvatarImage } from '@renderer/components/ui/avatar'
 import { cn } from '@renderer/lib/utils'
 import { Check, ChevronsUpDown, CircleDot, Dot, Plus, User } from 'lucide-react'
@@ -72,6 +74,18 @@ const repositories = [
   },
 ]
 
+const sidebarContent = [
+  {
+    title: "Pull Requests",
+    number: 0,
+    link: ""
+  },
+  {
+    title: "Issues",
+    number: 0,
+    link: ""
+  }
+]
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -151,7 +165,22 @@ const SideBar = ({ className, ...props }: CardProps) => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>     
-        <SidebarGroup />
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {sidebarContent.map((item) => (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <div className='flex justify-between items-center'>
+                      <a href={item.link}>{item.title}</a>
+                      <Badge variant="outline">{item.number}</Badge>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <UserCard />

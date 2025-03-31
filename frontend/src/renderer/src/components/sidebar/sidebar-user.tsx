@@ -62,9 +62,9 @@ const UserCard = () => {
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    className="w-full min-w-56 rounded-lg"
                     side="top"
-                    align="end"
+                    align="center"
                     sideOffset={4}
                 >
                     <DropdownMenuLabel>
@@ -92,35 +92,39 @@ const UserCard = () => {
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        <AlertDialog>
-                            <DropdownMenuItem 
-                                className="text-red-600 hover:!text-red-600"
-                                onSelect={(e) => e.preventDefault()}
-                            >
-                                <AlertDialogTrigger asChild>
-                                    <div className='flex gap-2 items-center'>
-                                        <LogOutIcon color='var(--color-red-600)' />
-                                        Logout
-                                    </div>
-                                </AlertDialogTrigger>
-                            </DropdownMenuItem>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Do you really want to Logout?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Hey Developer Noel here! I haven't really made the logout functionality. Stay tuned for that :p
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction>Pleeease</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <DropdownMenuItem
+                            className="text-red-600 hover:!text-red-600"
+                            onSelect={(e) => {
+                            e.preventDefault(); // Prevents dropdown from closing immediately
+                            setTimeout(() => {
+                                document.getElementById("alert-dialog-trigger")?.click(); // Opens dialog after dropdown closes
+                            }, 0);
+                            }}
+                        >
+                            <LogOutIcon color="var(--color-red-600)" />
+                            Logout
+                        </DropdownMenuItem>
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
         </SidebarMenuItem>
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <button id="alert-dialog-trigger" hidden />
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                <AlertDialogTitle>Do you really want to Logout?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    Hey Developer Noel here! I haven't really made the logout functionality. Stay tuned for that :p
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Pleeease</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     </SidebarMenu>
   )
 }
