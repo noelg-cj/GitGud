@@ -7,6 +7,7 @@ import SideBar from './components/sidebar'
 import { ThemeProvider } from './components/theme-provider'
 import { SidebarProvider } from './components/ui/sidebar'
 import Branch from './components/branch'
+import VCContainer from './components/vc-context'
 
 function App(): JSX.Element {
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -15,7 +16,7 @@ function App(): JSX.Element {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <SidebarProvider>
           <SideBar />
-          <Branch />
+          <VCContainer />
         </SidebarProvider>
     </ThemeProvider>
   )

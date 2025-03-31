@@ -15,17 +15,17 @@ import { Button } from '../ui/button'
 
 const Branch = () => {
   return (
-    <div className='w-1/4 p-2 h-screen bg-zinc-950'>
-        <Card className='bg-zinc-900 h-[18%]'>
+    <div className='w-[30%] p-2 pb-0 h-[90vh] bg-zinc-950'>
+        <Card className='bg-zinc-900 h-[18%] gap-5'>
             <CardHeader>
                 <CardTitle>Main</CardTitle>
                 <CardDescription>origin/main</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className='text-sm border border-zinc-500 inline p-2 px-4 rounded-md'>Default</p>
+                <p className='text-sm border border-zinc-500 inline p-1 px-2 rounded-md'>Default</p>
             </CardContent>
         </Card>
-        <Card className='bg-zinc-900 mt-2 h-[62%]'>
+        <Card className='bg-zinc-900 mt-2 h-[60%] gap-2'>
             <CardHeader>
                 <CardTitle className='flex items-center gap-3'>
                     Changes
