@@ -10,6 +10,7 @@ import {
   } from "@renderer/components/ui/breadcrumb"
 import { Button } from '@renderer/components/ui/button'
 import { ArrowLeftRight } from 'lucide-react'
+import { Separator } from '@renderer/components/ui/separator'
   
 
 const VCContainer = () => {
@@ -32,7 +33,14 @@ const VCContainer = () => {
                 Sync Changes
             </Button>
         </div>
-        <Branch />
+        <div className='flex w-full h-full'>
+            <Branch />
+            <Separator orientation='vertical' />
+            <div className='w-[70%] h-[90%] flex flex-col items-center justify-center'>
+                <h6>Changes you made to a file appear here.</h6>
+                <p className='text-sm text-zinc-400'>Select a file to see it's changes</p>
+            </div>
+        </div>
     </div>
   )
 }
