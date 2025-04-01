@@ -4,7 +4,11 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config(); // Load .env file
 
-const VCS_DIR = ".dgit";
+// Define the working directory (default to current directory if not provided)
+const WORKING_DIR = process.env.WORKING_DIR || process.cwd();
+
+// Define paths relative to the working directory
+const VCS_DIR = path.join(WORKING_DIR, ".dgit");
 const STAGE_FILE = path.join(VCS_DIR, "stage.json");
 const LOG_FILE = path.join(VCS_DIR, "log.json");
 const FILES_DIR = path.join(VCS_DIR, "files");
@@ -23,7 +27,8 @@ function init() {
 
 // Stage files for commit
 function add(file) {
-  if (!fs.existsSync(file)) {
+  const filePath = path.resolve(WORKING_DIR, file);
+  if (!fs.existsSync(filePath)) {
     console.error(`File "${file}" does not exist.`);
     return;
   }
@@ -38,8 +43,9 @@ function add(file) {
 }
 
 function copyFileToCommitDir(file, commitDir) {
-  const destPath = path.join(commitDir, path.basename(file));
-  fs.copyFileSync(file, destPath);
+  const filePath = path.resolve(WORKING_DIR, file);
+  const destPath = path.join(commitDir, path.basename(filePath));
+  fs.copyFileSync(filePath, destPath);
 }
 
 // Commit staged files
@@ -100,7 +106,7 @@ function push() {
     return; // Exit if the user is not allowed
   }
 
-  const syncDir = path.join(VCS_DIR, "..", "sync");
+  const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
   const syncLogFile = path.join(syncDir, "log.json");
 
   const currentLog = JSON.parse(fs.readFileSync(LOG_FILE));
@@ -147,7 +153,7 @@ function pull() {
     return; // Exit if the user is not allowed
   }
 
-  const syncDir = path.join(VCS_DIR, "..", "sync");
+  const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
   const syncLogFile = path.join(syncDir, "log.json");
 
   if (!fs.existsSync(syncDir)) {
@@ -233,3 +239,8 @@ switch (command) {
     console.log("Usage: vcs <command> [args]");
     console.log("Commands: init, add <file>, commit <message>, log");
 }
+
+pull();
+add("main.txt");
+commit("Testing from NOel's side");
+push();
