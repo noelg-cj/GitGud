@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { pull } from '../dgit/main'; // Import the pull function
+import { pull, commit, push } from '../dgit/main';
 
 function createWindow(): void {
   // Create the browser window.
@@ -56,8 +56,9 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   ipcMain.handle("sync-changes", () => {
-    console.log("Sync Changes button pressed. Running pull...");
+    console.log("Sync Changes button pressed. Running pull and push...");
     pull(); // Register the sync-changes handler
+    push();// Register the sync-changes handler
   });
 
   createWindow()

@@ -48,7 +48,7 @@ function copyFileToCommitDir(file, commitDir) {
 }
 
 // Commit staged files
-function commit(message) {
+export function commit(message) {
   if (!isUserAllowed()) {
     return; // Exit if the user is not allowed
   }
@@ -102,13 +102,12 @@ function isUserAllowed() {
   return true;
 }
 
-// Log environment variables for debugging (optional, remove in production)
 console.log("USER_EMAIL:", process.env.USER_EMAIL);
 console.log("ALLOWED_EMAILS:", process.env.ALLOWED_EMAILS);
 
-function push() {
+export function push() {
   if (!isUserAllowed()) {
-    return; // Exit if the user is not allowed
+    return; 
   }
 
   const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
@@ -155,15 +154,16 @@ function push() {
 ipcMain.handle("push", () => push());
 
 ipcMain.handle("sync-changes", () => {
-  console.log("Sync Changes button pressed. Running pull...");
-  pull(); // Call the pull function
+  console.log("Sync Changes button pressed. Running pull and push...");
+  pull(); 
+  push(); 
 });
 
-// Pull changes
+
 export function pull() {
-  console.log("Pulling changes here..."); // Log the pull action
+  console.log("Pulling changes here..."); 
   if (!isUserAllowed()) {
-    return; // Exit if the user is not allowed
+    return; 
   }
 
   const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
@@ -217,7 +217,7 @@ export function pull() {
 ipcMain.handle("pull", () => pull());
 
 
-// Show commit history
+
 function logHistory() {
   const log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   if (log.length === 0) {

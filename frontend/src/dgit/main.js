@@ -49,7 +49,7 @@ function copyFileToCommitDir(file, commitDir) {
 }
 
 // Commit staged files
-function commit(message) {
+export function commit(message) {
   if (!isUserAllowed()) {
     return; // Exit if the user is not allowed
   }
@@ -101,7 +101,7 @@ function isUserAllowed() {
   return true;
 }
 
-function push() {
+export function push() {
   if (!isUserAllowed()) {
     return; // Exit if the user is not allowed
   }
@@ -281,3 +281,13 @@ switch (command) {
     console.log("Usage: vcs <command> [args]");
     console.log("Commands: init, add <file>, commit <message>, log");
 }
+
+module.exports = {
+  init,
+  add,
+  commit,
+  push, // Export the push function
+  pull,
+  logHistory,
+  merge,
+};
