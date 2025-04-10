@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { pull } from '../dgit/main'; // Import the pull function
 
 function createWindow(): void {
   // Create the browser window.
@@ -12,6 +13,8 @@ function createWindow(): void {
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
@@ -51,6 +54,11 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  ipcMain.handle("sync-changes", () => {
+    console.log("Sync Changes button pressed. Running pull...");
+    pull(); // Register the sync-changes handler
+  });
 
   createWindow()
 

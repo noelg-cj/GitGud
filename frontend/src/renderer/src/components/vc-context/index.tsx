@@ -11,9 +11,14 @@ import {
 import { Button } from '@renderer/components/ui/button'
 import { ArrowLeftRight } from 'lucide-react'
 import { Separator } from '@renderer/components/ui/separator'
-  
+
+const { ipcRenderer } = window.require("electron"); // Import ipcRenderer
 
 const VCContainer = () => {
+  const handleSyncChanges = () => {
+    ipcRenderer.invoke("sync-changes"); // Send IPC message to main process
+  };
+
   return (
     <div className='h-screen overflow-hidden w-screen'>
         <div className='w-[100%] p-7 h-[10%] bg-zinc-900 flex items-center gap-5'>
@@ -28,7 +33,11 @@ const VCContainer = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <Button variant='outline' className='cursor-pointer'>
+            <Button
+              variant='outline'
+              className='cursor-pointer'
+              onClick={handleSyncChanges} // Attach event handler
+            >
                 <ArrowLeftRight />
                 Sync Changes
             </Button>

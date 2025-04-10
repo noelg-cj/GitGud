@@ -1,7 +1,6 @@
-#!/usr/bin/env node
-
-const fs = require("fs");
-const path = require("path");
+import { ipcMain } from "electron";
+import fs from "fs";
+import path from "path-browserify";
 require("dotenv").config(); // Load .env file
 
 // Define the working directory (default to current directory if not provided)
@@ -32,7 +31,7 @@ function add(file) {
     console.error(`File "${file}" does not exist.`);
     return;
   }
-  const stage = JSON.parse(fs.readFileSync(STAGE_FILE));
+  const stage = JSON.parse(fs.readFileSync(STAGE_FILE, 'utf-8'));
   if (!stage.includes(file)) {
     stage.push(file);
     fs.writeFileSync(STAGE_FILE, JSON.stringify(stage));
@@ -54,7 +53,7 @@ function commit(message) {
     return; // Exit if the user is not allowed
   }
 
-  const stage = JSON.parse(fs.readFileSync(STAGE_FILE));
+  const stage = JSON.parse(fs.readFileSync(STAGE_FILE, 'utf-8'));
   if (stage.length === 0) {
     console.log("No files to commit.");
     return;
@@ -63,7 +62,7 @@ function commit(message) {
   const user = process.env.USER || "unknown";
   const userEmail = process.env.USER_EMAIL || "unknown@example.com";
 
-  const log = JSON.parse(fs.readFileSync(LOG_FILE));
+  const log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   const commitId = log.length + 1;
 
   const commitDir = path.join(FILES_DIR, String(commitId));
@@ -88,8 +87,10 @@ function commit(message) {
   console.log(`Committed with message: "${message}"`);
 }
 
+ipcMain.handle("commit", (_, message) => commit(message));
+
 function isUserAllowed() {
-  const userEmail = process.env.USER_EMAIL || "unknown@example.com";
+  const userEmail = process.env.USER_EMAIL || "unknown@example.com"; // Ensure fallback value
   const allowedEmails = (process.env.ALLOWED_EMAILS || "").split(",");
 
   if (!allowedEmails.includes(userEmail)) {
@@ -101,6 +102,10 @@ function isUserAllowed() {
   return true;
 }
 
+// Log environment variables for debugging (optional, remove in production)
+console.log("USER_EMAIL:", process.env.USER_EMAIL);
+console.log("ALLOWED_EMAILS:", process.env.ALLOWED_EMAILS);
+
 function push() {
   if (!isUserAllowed()) {
     return; // Exit if the user is not allowed
@@ -109,12 +114,12 @@ function push() {
   const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
   const syncLogFile = path.join(syncDir, "log.json");
 
-  const currentLog = JSON.parse(fs.readFileSync(LOG_FILE));
+  const currentLog = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   const currentCommitCount = currentLog.length;
 
   let syncCommitCount = 0;
   if (fs.existsSync(syncLogFile)) {
-    const syncLog = JSON.parse(fs.readFileSync(syncLogFile));
+    const syncLog = JSON.parse(fs.readFileSync(syncLogFile, 'utf-8'));
     syncCommitCount = syncLog.length;
   }
 
@@ -147,8 +152,16 @@ function push() {
   console.log("Pushed changes to sync directory.");
 }
 
+ipcMain.handle("push", () => push());
+
+ipcMain.handle("sync-changes", () => {
+  console.log("Sync Changes button pressed. Running pull...");
+  pull(); // Call the pull function
+});
+
 // Pull changes
 export function pull() {
+  console.log("Pulling changes here..."); // Log the pull action
   if (!isUserAllowed()) {
     return; // Exit if the user is not allowed
   }
@@ -161,12 +174,12 @@ export function pull() {
     return;
   }
 
-  const currentLog = JSON.parse(fs.readFileSync(LOG_FILE));
+  const currentLog = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   const currentCommitCount = currentLog.length;
 
   let syncCommitCount = 0;
   if (fs.existsSync(syncLogFile)) {
-    const syncLog = JSON.parse(fs.readFileSync(syncLogFile));
+    const syncLog = JSON.parse(fs.readFileSync(syncLogFile, 'utf-8'));
     syncCommitCount = syncLog.length;
   }
 
@@ -201,9 +214,12 @@ export function pull() {
   merge();
 }
 
+ipcMain.handle("pull", () => pull());
+
+
 // Show commit history
 function logHistory() {
-  const log = JSON.parse(fs.readFileSync(LOG_FILE));
+  const log = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   if (log.length === 0) {
     console.log("No commits yet.");
     return;
@@ -220,7 +236,7 @@ function merge() {
     return;
   }
 
-  const localLog = JSON.parse(fs.readFileSync(LOG_FILE));
+  const localLog = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
   if (localLog.length === 0) {
     console.log("No commits available to merge.");
     return;
