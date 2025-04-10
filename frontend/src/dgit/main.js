@@ -13,7 +13,7 @@ const STAGE_FILE = path.join(VCS_DIR, "stage.json");
 const LOG_FILE = path.join(VCS_DIR, "log.json");
 const FILES_DIR = path.join(VCS_DIR, "files");
 
-// Initialize a repository
+
 function init() {
   if (fs.existsSync(VCS_DIR)) {
     console.log("Repository already initialized.");
@@ -25,7 +25,7 @@ function init() {
   console.log("Initialized empty repository.");
 }
 
-// Stage files for commit
+
 function add(file) {
   const filePath = path.resolve(WORKING_DIR, file);
   if (!fs.existsSync(filePath)) {
@@ -48,10 +48,10 @@ function copyFileToCommitDir(file, commitDir) {
   fs.copyFileSync(filePath, destPath);
 }
 
-// Commit staged files
+
 export function commit(message) {
   if (!isUserAllowed()) {
-    return; // Exit if the user is not allowed
+    return; 
   }
 
   const stage = JSON.parse(fs.readFileSync(STAGE_FILE));
@@ -103,7 +103,7 @@ function isUserAllowed() {
 
 export function push() {
   if (!isUserAllowed()) {
-    return; // Exit if the user is not allowed
+    return; 
   }
 
   const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
@@ -147,10 +147,10 @@ export function push() {
   console.log("Pushed changes to sync directory.");
 }
 
-// Pull changes
+
 export function pull() {
   if (!isUserAllowed()) {
-    return; // Exit if the user is not allowed
+    return;
   }
 
   const syncDir = path.join(VCS_DIR, "../../syncdir", "sync");
@@ -201,7 +201,6 @@ export function pull() {
   merge();
 }
 
-// Show commit history
 function logHistory() {
   const log = JSON.parse(fs.readFileSync(LOG_FILE));
   if (log.length === 0) {
@@ -255,7 +254,7 @@ function merge() {
   );
 }
 
-// CLI command handling
+
 const [, , command, ...args] = process.argv;
 
 switch (command) {
@@ -286,7 +285,7 @@ module.exports = {
   init,
   add,
   commit,
-  push, // Export the push function
+  push,
   pull,
   logHistory,
   merge,
