@@ -52,13 +52,16 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
+
   ipcMain.on('ping', () => console.log('pong'))
 
   ipcMain.handle("sync-changes", () => {
-    console.log("Sync Changes button pressed. Running pull and push...");
-    pull(); // Register the sync-changes handler
-    push();// Register the sync-changes handler
+    console.log("Sync Changes button pressed. Running pull...");
+    pull(); 
+  });
+  ipcMain.handle("push-changes", () => {
+    console.log("Pull Changes button pressed. Running push...");
+    push(); 
   });
 
   ipcMain.handle("commit", (_, message) => {

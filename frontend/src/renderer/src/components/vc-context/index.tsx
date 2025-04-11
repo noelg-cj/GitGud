@@ -9,7 +9,7 @@ import {
     BreadcrumbSeparator,
   } from "@renderer/components/ui/breadcrumb"
 import { Button } from '@renderer/components/ui/button'
-import { ArrowLeftRight } from 'lucide-react'
+import { ArrowDown, ArrowLeftRight, ArrowUp } from 'lucide-react'
 import { Separator } from '@renderer/components/ui/separator'
 
 const { ipcRenderer } = window.require("electron"); // Import ipcRenderer
@@ -17,6 +17,9 @@ const { ipcRenderer } = window.require("electron"); // Import ipcRenderer
 const VCContainer = () => {
   const handleSyncChanges = () => {
     ipcRenderer.invoke("sync-changes"); // Send IPC message to main process
+  };
+  const push = () => {
+    ipcRenderer.invoke("push-changes"); // Send IPC message to main process
   };
 
   return (
@@ -38,8 +41,16 @@ const VCContainer = () => {
               className='cursor-pointer'
               onClick={handleSyncChanges} // Attach event handler
             >
-                <ArrowLeftRight />
-                Sync Changes
+                <ArrowDown />
+                Pull
+            </Button>
+            <Button
+              variant='outline'
+              className='cursor-pointer'
+              onClick={push} // Attach event handler
+            >
+                <ArrowUp />
+                Push Changes
             </Button>
         </div>
         <div className='flex w-full h-full'>
