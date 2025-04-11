@@ -35,6 +35,8 @@ import {
   } from "@renderer/components/ui/form"
 import { Textarea } from '../ui/textarea'
 
+const { ipcRenderer } = window.require("electron"); // Import ipcRenderer
+
 const formSchema = z.object({
     title: z.string().min(2).max(50),
     description: z.string().min(2).max(50),
@@ -51,6 +53,7 @@ const BranchForm = () => {
 
       function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
+        ipcRenderer.invoke("commit", values.title); // Send commit message to main process
       }
     return (
         <Form {...form}>
@@ -155,4 +158,4 @@ const Branch = () => {
   )
 }
 
-export default Branch    
+export default Branch

@@ -25,7 +25,7 @@ function init() {
 }
 
 // Stage files for commit
-function add(file) {
+export function add(file) {
   const filePath = path.resolve(WORKING_DIR, file);
   if (!fs.existsSync(filePath)) {
     console.error(`File "${file}" does not exist.`);
