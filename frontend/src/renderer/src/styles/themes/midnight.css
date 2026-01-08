@@ -1,0 +1,20 @@
+[data-theme="midnight"] {
+  --background: 222 60% 4%;
+  --foreground: 210 40% 98%;
+
+  --card: 222 60% 7%;
+  --card-foreground: 210 40% 98%;
+
+  --primary: 215 90% 60%;
+  --primary-foreground: 222 60% 8%;
+
+  --accent: 215 50% 14%;
+  --accent-foreground: 210 40% 98%;
+
+  --muted: 215 40% 12%;
+  --muted-foreground: 215 20% 65%;
+
+  --border: 215 40% 18%;
+  --input: 215 40% 18%;
+  --ring: 215 90% 60%;
+}

@@ -1,10 +1,9 @@
-import React from 'react'
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import { House, Plus } from 'lucide-react';
 
 const TabBar = () => {
-    const location = useLocation();
+    // const location = useLocation();
   return (
     <div className='bg-[#040510] w-screen h-10 flex items-center border-b border-blue-100/10'>
         <div className='p-2 px-4 border-r border-blue-100/10 flex items-center'>

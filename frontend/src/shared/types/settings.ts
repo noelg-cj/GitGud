@@ -1,4 +1,4 @@
-export type themeName = "orpheus" | "light" | "dark";
+export type themeName = "orpheus" | "light" | "dark" | "midnight" | "jade";
 
 export type Settings = {
     theme: themeName;
